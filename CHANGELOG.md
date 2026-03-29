@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-03-29
+
 ### Added
 
-- Actor typeahead on the sign-in form — suggests Bluesky handles as you type using the `@tijs/actor-typeahead` web component and the public `app.bsky.actor.searchActorsTypeahead` API
+- Actor typeahead on the sign-in form — suggests Bluesky handles as you type using the `@tijs/actor-typeahead` web component and the public `app.bsky.actor.searchActorsTypeahead` API (suggested by [@goost.art](https://bsky.app/profile/goost.art))
 - CLAUDE.md with project context for Claude Code
 - CHANGELOG.md and README.md
 
