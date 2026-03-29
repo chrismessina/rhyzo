@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 function LoginForm() {
@@ -8,6 +8,27 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const searchParams = useSearchParams();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Register the web component once on the client
+  useEffect(() => {
+    import('@tijs/actor-typeahead');
+  }, []);
+
+  // Listen for native input events dispatched by the web component
+  // when a suggestion is selected (React's onChange won't catch these)
+  const handleInputEvent = useCallback(() => {
+    if (inputRef.current) {
+      setHandle(inputRef.current.value);
+    }
+  }, []);
+
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.addEventListener('input', handleInputEvent);
+    return () => el.removeEventListener('input', handleInputEvent);
+  }, [handleInputEvent]);
 
   useEffect(() => {
     const errParam = searchParams.get('error');
@@ -60,15 +81,20 @@ function LoginForm() {
 
         <form onSubmit={handleLogin}>
           <label className="section-header block mb-3">AT Protocol Handle</label>
-          <input
-            type="text"
-            value={handle}
-            onChange={(e) => setHandle(e.target.value)}
-            placeholder="chrismessina.me or user.bsky.social"
-            className="input mb-4"
-            disabled={loading}
-            autoFocus
-          />
+          {/* @ts-expect-error — actor-typeahead is a web component, not in JSX.IntrinsicElements */}
+          <actor-typeahead rows="6">
+            <input
+              ref={inputRef}
+              type="text"
+              value={handle}
+              onChange={(e) => setHandle(e.target.value)}
+              placeholder="chrismessina.me or user.bsky.social"
+              className="input mb-4"
+              disabled={loading}
+              autoFocus
+            />
+          {/* @ts-expect-error — web component closing tag */}
+          </actor-typeahead>
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 

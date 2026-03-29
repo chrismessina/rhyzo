@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     // authorize() resolves the handle, discovers the auth server,
     // performs PAR with PKCE + DPoP, and returns the authorization URL
     const authUrl = await client.authorize(cleanHandle, {
-      scope: 'atproto transition:generic',
+      scope: 'atproto',
     });
 
     return NextResponse.json({ authUrl: authUrl.toString() });

@@ -53,7 +53,7 @@ const isLocalhost = BASE_URL.includes('localhost') || BASE_URL.includes('127.0.0
 
 function getClientMetadata() {
   const redirectUri = `${BASE_URL}/api/v1/auth/atproto/callback` as const;
-  const scope = 'atproto transition:generic';
+  const scope = 'atproto';
 
   const base = {
     client_name: 'Rhyzo',

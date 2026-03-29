@@ -18,7 +18,7 @@ export async function GET() {
     redirect_uris: [`${BASE_URL}/api/v1/auth/atproto/callback`],
     grant_types: ['authorization_code', 'refresh_token'],
     response_types: ['code'],
-    scope: 'atproto transition:generic',
+    scope: 'atproto',
     token_endpoint_auth_method: 'none',
     application_type: 'web',
     dpop_bound_access_tokens: true,

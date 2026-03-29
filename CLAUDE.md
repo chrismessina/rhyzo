@@ -1,4 +1,8 @@
-# Rhyzo — Claude Code Instructions
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
 
 Rhyzo is a decentralized identity resolution service (think: a modern `finger` command for the open web). Users sign in with a Bluesky/AT Protocol handle via OAuth, claim a profile at `rhyzo.com/@handle`, and link verified accounts across platforms.
 
@@ -36,6 +40,8 @@ src/
 - **Raw SQL in Drizzle** — when using `sql` template literals, pass plain numbers/strings. `Date` objects cause a SQLite binding error (`SQLite3 can only bind numbers...`). Use `Math.floor(Date.now() / 1000)` for timestamp comparisons.
 - **Dynamic `[slug]` routes** — Next.js percent-encodes `@` to `%40` in params. Always run `normalizeSlug()` (strips leading `@` or `%40`) before DB lookups. See `src/app/[slug]/page.tsx`.
 - **`NEXT_PUBLIC_*` env vars** — inlined at build time. Must be passed as Docker `ARG` in the builder stage, not just as runtime `ENV`. See `Dockerfile` and `fly.toml`.
+- **Next.js standalone output** — `next.config.js` uses `output: 'standalone'`. Production runs `node server.js`, not `next start`.
+- **DB schema changes** — edit `src/db/schema.ts`, run `npm run db:generate` to create a migration, then `npm run db:migrate` to apply. `db:init` (which runs `src/db/migrate.ts`) executes automatically on `dev` and `build`.
 
 ## Environment variables
 
@@ -48,12 +54,19 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3002
 ADMIN_DIDS=did:plc:yourdidheretogetadminaccess
 ```
 
-## Local dev
+## Commands
 
 ```bash
-npm install
-npm run dev        # starts on :3002
+npm install              # install deps
+npm run dev              # starts on :3002 (runs db:init first)
+npm run build            # production build (runs db:init first)
+npm run db:init          # run migrations (tsx src/db/migrate.ts)
+npm run db:generate      # generate new migration after schema changes (drizzle-kit generate)
+npm run db:migrate       # apply migrations via drizzle-kit
+npm run db:studio        # open Drizzle Studio GUI
 ```
+
+No test runner or linter is configured. There are no test files in the project.
 
 AT Protocol OAuth requires a publicly reachable callback URL. For local dev, use a tunnel (e.g. `ngrok`) and update `NEXT_PUBLIC_BASE_URL` accordingly. The loopback redirect URI is configured in `src/lib/oauth.ts`.
 

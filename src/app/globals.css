@@ -53,4 +53,30 @@
            focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent
            transition-colors duration-150;
   }
+
+  actor-typeahead {
+    --color-background: #ffffff;
+    --color-border: rgba(26, 26, 26, 0.2);
+    --color-shadow: rgba(0, 0, 0, 0.08);
+    --color-hover: rgba(37, 99, 235, 0.06);
+    --color-avatar-fallback: rgba(37, 99, 235, 0.15);
+    --radius: 6px;
+    --padding-menu: 4px;
+    display: block;
+    position: relative;
+  }
+
+  actor-typeahead::part(menu) {
+    margin-top: -1rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    actor-typeahead {
+      --color-background: #1a1a1a;
+      --color-border: rgba(255, 255, 255, 0.15);
+      --color-shadow: rgba(0, 0, 0, 0.3);
+      --color-hover: rgba(37, 99, 235, 0.15);
+      --color-avatar-fallback: rgba(37, 99, 235, 0.25);
+    }
+  }
 }
