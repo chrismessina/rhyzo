@@ -1,0 +1,39 @@
+{
+  "name": "rhyzo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run db:init && next dev",
+    "build": "npm run db:init && next build",
+    "start": "next start",
+    "db:init": "tsx src/db/migrate.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0",
+    "@atproto/oauth-client-node": "^0.3.17",
+    "@atproto/oauth-types": "^0.6.3",
+    "better-sqlite3": "^11.0.0",
+    "drizzle-orm": "^0.36.0",
+    "jose": "^5.6.0",
+    "next": "14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^10.0.0",
+    "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.28.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.2"
+  }
+}
